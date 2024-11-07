@@ -1,11 +1,14 @@
-# Utiliser une image Java de base
-FROM openjdk:11-jdk
+# Utiliser une image de base Java
+FROM openjdk:17-jdk
 
 # Définir le répertoire de travail
 WORKDIR /app
 
-# Copier le fichier JAR de l'application
-COPY *.jar app.jar
+# Copier les fichiers JAR dans le conteneur
+COPY ./target/flutter-0.0.1-SNAPSHOT.jar app.jar
 
-# Définir la commande pour exécuter l'application
+# Exposer le port 8080 pour votre application
+EXPOSE 3000
+
+# Définir la commande d'exécution
 CMD ["java", "-jar", "app.jar"]
