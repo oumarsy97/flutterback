@@ -5,7 +5,7 @@ FROM openjdk:17-jdk
 WORKDIR /app
 
 # Copier le fichier JAR de l'application
-COPY target/*.jar app.jar
+COPY ./target/*.jar app.jar
 
 # Définir la commande pour exécuter l'application
 CMD ["java", "-jar", "app.jar"]
