@@ -1,4 +1,4 @@
-package sn.odc.flutter.Datas.Repository;
+package sn.odc.flutter.Datas.Repository.Interfaces;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;

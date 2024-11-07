@@ -3,11 +3,9 @@ package sn.odc.flutter.Datas.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import sn.odc.oumar.springproject.Datas.listeners.impl.SoftDeletable;
-
+import sn.odc.flutter.Datas.listeners.impl.SoftDeletable;
 import java.time.LocalDateTime;
 
 @MappedSuperclass

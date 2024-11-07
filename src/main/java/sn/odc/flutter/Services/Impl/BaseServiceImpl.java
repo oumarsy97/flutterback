@@ -1,4 +1,4 @@
-package sn.odc.flutter.Services;
+package sn.odc.flutter.Services.Impl;
 
 import sn.odc.flutter.Datas.Repository.Interfaces.BaseInterface;
 import sn.odc.flutter.Datas.listeners.impl.SoftDeletable;

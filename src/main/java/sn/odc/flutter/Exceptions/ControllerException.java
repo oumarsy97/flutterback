@@ -1,4 +1,4 @@
-package sn.odc.oumar.springproject.Exceptions;
+package sn.odc.flutter.Exceptions;
 
 public class ControllerException extends RuntimeException {
     public ControllerException(String message) {

@@ -1,4 +1,4 @@
-package sn.odc.oumar.springproject.Web.Dtos.Response.impl;
+package sn.odc.flutter.Web.Dtos.response;
 
 import lombok.Getter;
 import lombok.Setter;

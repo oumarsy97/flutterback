@@ -1,4 +1,4 @@
-package sn.odc.oumar.springproject.Web.Controller.Interfaces;
+package sn.odc.flutter.Web.Controller.Interfaces;
 
 
 import org.springframework.http.ResponseEntity;

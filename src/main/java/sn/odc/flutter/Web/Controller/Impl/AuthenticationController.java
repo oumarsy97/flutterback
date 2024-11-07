@@ -1,4 +1,4 @@
-package sn.odc.oumar.springproject.Web.Controller.Impl;
+package sn.odc.flutter.Web.Controller.Impl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sn.odc.oumar.springproject.Datas.Entity.User;
-import sn.odc.oumar.springproject.Services.Impl.AuthenticationService;
-import sn.odc.oumar.springproject.Services.Impl.JwtService;
-import sn.odc.oumar.springproject.Web.Dtos.Request.LoginUserDto;
-import sn.odc.oumar.springproject.Web.Dtos.Request.RegisterUserDto;
-import sn.odc.oumar.springproject.Web.Dtos.Response.impl.LoginResponse;
+import sn.odc.flutter.Datas.Entity.Compte;
+import sn.odc.flutter.Services.Impl.AuthenticationService;
+import sn.odc.flutter.Services.Impl.JwtService;
+import sn.odc.flutter.Web.Dtos.request.CompteDTO;
+import sn.odc.flutter.Web.Dtos.request.LoginUserDto;
+import sn.odc.flutter.Web.Dtos.response.LoginResponse;
 
 @RequestMapping("/auth")
 @RestController
@@ -28,21 +28,20 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
-        User registeredUser = authenticationService.signup(registerUserDto);
+    public ResponseEntity<Compte> register(@RequestBody CompteDTO registerUserDto) {
+        Compte registeredCompte = authenticationService.signup(registerUserDto);
 
-        return ResponseEntity.ok(registeredUser);
+        return ResponseEntity.ok(registeredCompte);
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
-        User authenticatedUser = authenticationService.authenticate(loginUserDto);
+        Compte authenticatedUser = authenticationService.authenticate(loginUserDto);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setToken(jwtToken);
-
 
         return ResponseEntity.ok(loginResponse);
     }

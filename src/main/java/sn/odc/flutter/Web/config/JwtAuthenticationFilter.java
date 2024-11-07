@@ -1,4 +1,4 @@
-package sn.odc.oumar.springproject.Web.config;
+package sn.odc.flutter.Web.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,8 +14,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import sn.odc.oumar.springproject.Services.Impl.CustomUserDetailsService;
-import sn.odc.oumar.springproject.Services.Impl.JwtService;
+import sn.odc.flutter.Services.Impl.CustomUserDetailsService;
+import sn.odc.flutter.Services.Impl.JwtService;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     public JwtAuthenticationFilter(
             JwtService jwtService,
-            CustomUserDetailsService  userDetailsService,
+            CustomUserDetailsService userDetailsService,
             HandlerExceptionResolver handlerExceptionResolver
     ) {
         this.jwtService = jwtService;

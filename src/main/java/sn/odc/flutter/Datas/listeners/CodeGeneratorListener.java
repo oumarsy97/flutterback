@@ -3,7 +3,7 @@ package sn.odc.flutter.Datas.listeners;
 
 
 import jakarta.persistence.PrePersist;
-import sn.odc.oumar.springproject.Datas.listeners.impl.CodeGeneratable;
+import sn.odc.flutter.Datas.listeners.impl.CodeGeneratable;
 
 import java.time.Instant;
 

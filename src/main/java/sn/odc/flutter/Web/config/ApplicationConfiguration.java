@@ -1,4 +1,4 @@
-package sn.odc.oumar.springproject.Web.config;
+package sn.odc.flutter.Web.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,20 +11,20 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import sn.odc.oumar.springproject.Datas.Repository.Interfaces.UserRepository;
+import sn.odc.flutter.Datas.Repository.Interfaces.CompteRepository;
 
 @Configuration
 public class ApplicationConfiguration {
-    private final UserRepository userRepository;
+    private final CompteRepository userRepository;
 
     @Autowired
-    public ApplicationConfiguration(UserRepository userRepository) {
+    public ApplicationConfiguration(CompteRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Bean
     UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username)
+        return username -> userRepository.findCompteByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 

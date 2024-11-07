@@ -1,4 +1,4 @@
-package sn.odc.oumar.springproject.Services.Impl;
+package sn.odc.flutter.Services.Impl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -41,14 +40,14 @@ public class JwtService {
     // Générer un token JWT avec les rôles de l'utilisateur
     public String generateToken(UserDetails userDetails) {
         // Récupérer les rôles de l'utilisateur
-        String roles = userDetails.getAuthorities().stream()
+        String types = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         // Construire le JWT avec les rôles comme claim
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .claim("roles", roles)  // Ajouter les rôles dans les claims
+                .claim("types", types)  // Ajouter les rôles dans les claims
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))  // Définir l'expiration du token
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)  // Signer le token avec la clé secrète
@@ -98,7 +97,7 @@ public class JwtService {
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(getSignInKey())
-                .build()
+        .build()
                 .parseClaimsJws(token)
                 .getBody();
     }

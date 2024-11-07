@@ -1,9 +1,9 @@
-package sn.odc.oumar.springproject.Web.config;
+package sn.odc.flutter.Web.config;
 
+import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import jakarta.servlet.Filter;
-import sn.odc.oumar.springproject.Web.filters.ResponseFormattingFilter;
+import sn.odc.flutter.Web.filters.ResponseFormattingFilter;
 
 @Configuration
 public class FilterConfig {

@@ -1,4 +1,4 @@
-package sn.odc.oumar.springproject.Web.Dtos.Request;
+package sn.odc.flutter.Web.Dtos.request;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package sn.odc.oumar.springproject.Services.Impl;
+package sn.odc.flutter.Services.Impl;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -6,27 +6,33 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import sn.odc.oumar.springproject.Datas.Entity.User;
-import sn.odc.oumar.springproject.Datas.Repository.Interfaces.UserRepository;
+import sn.odc.flutter.Datas.Entity.Compte;
+import sn.odc.flutter.Datas.Repository.Interfaces.CompteRepository;
 
-import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final CompteRepository compteRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public CustomUserDetailsService(CompteRepository compteRepository) {
+        this.compteRepository = compteRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Compte compte = compteRepository.findCompteByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Compte not found"));
 
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+user.getRole().getLibelle());
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                Collections.singletonList(authority));  // Associer un seul rôle
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + compte.getType()));
+
+        return new org.springframework.security.core.userdetails.User(
+                compte.getEmail(),
+                compte.getPassword(),
+                authorities
+        );
     }
 }

@@ -1,65 +1,68 @@
-package sn.odc.oumar.springproject.Services.Impl;
-
+package sn.odc.flutter.Services.Impl;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import sn.odc.oumar.springproject.Datas.Entity.Role;
-import sn.odc.oumar.springproject.Datas.Entity.User;
-import sn.odc.oumar.springproject.Datas.Repository.Interfaces.RoleRepository;
-import sn.odc.oumar.springproject.Datas.Repository.Interfaces.UserRepository;
-import sn.odc.oumar.springproject.Web.Dtos.Request.LoginUserDto;
-import sn.odc.oumar.springproject.Web.Dtos.Request.RegisterUserDto;
+import sn.odc.flutter.Datas.Entity.Compte;
+import sn.odc.flutter.Datas.Repository.Interfaces.CompteRepository;
+import sn.odc.flutter.Web.Dtos.request.CompteDTO;
+import sn.odc.flutter.Web.Dtos.request.LoginUserDto;
+import org.springframework.security.authentication.BadCredentialsException;
 
 @Service
 public class AuthenticationService {
-    private final UserRepository userRepository;
-
+    private final CompteRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final AuthenticationManager authenticationManager;
-    private final RoleRepository roleRepository;
 
     public AuthenticationService(
-            UserRepository userRepository,
+            CompteRepository userRepository,
             AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder,
-            RoleRepository roleRepository
+            PasswordEncoder passwordEncoder
     ) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
     }
 
-    public User signup(RegisterUserDto input) {
-        User user = new User();
-        user.setNom(input.getNom());
-        user.setPrenom(input.getPrenom());
-        user.setTelephone(input.getTelephone());
-        user.setAdresse(input.getAdresse());
-        user.setEmail(input.getEmail());
-        user.setStatus(User.Status.ACTIF);
+    public Compte signup(CompteDTO input) {
+        // Vérifier si l'email existe déjà
+        if (userRepository.findCompteByEmail(input.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
+        }
 
-        Role role = roleRepository.findById(input.getRole_id())
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-        user.setRole(role);
-        user.setPassword(passwordEncoder.encode(input.getPassword()));
+        Compte compte = new Compte();
+        compte.setEmail(input.getEmail());
+        compte.setTelephone(input.getTelephone());
+        compte.setPassword(passwordEncoder.encode(input.getPassword()));
 
-
-        return userRepository.save(user);
+        return userRepository.save(compte);
     }
 
-    public User authenticate(LoginUserDto input) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getEmail(),
-                        input.getPassword()
-                )
-        );
+    public Compte authenticate(LoginUserDto input) {
+        try {
+            // Vérifier si l'email existe
+            Compte compte = userRepository.findCompteByEmail(input.getEmail())
+                    .orElseThrow(() -> new BadCredentialsException("User not found"));
 
-        return userRepository.findByEmail(input.getEmail())
-                .orElseThrow();
+            // Vérifier si le mot de passe correspond
+            if (!passwordEncoder.matches(input.getPassword(), compte.getPassword())) {
+                throw new BadCredentialsException("Invalid password");
+            }
+
+            // Authentifier
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            input.getEmail(),
+                            input.getPassword()
+                    )
+            );
+
+
+            return compte;
+        } catch (BadCredentialsException e) {
+            throw new BadCredentialsException("Authentication failed: " + e.getMessage());
+        }
     }
 }

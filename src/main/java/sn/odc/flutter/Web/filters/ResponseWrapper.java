@@ -1,8 +1,10 @@
-package sn.odc.oumar.springproject.Web.filters;
+package sn.odc.flutter.Web.filters;
+
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
