@@ -36,7 +36,6 @@ public class AuthenticationService {
         compte.setEmail(input.getEmail());
         compte.setTelephone(input.getTelephone());
         compte.setPassword(passwordEncoder.encode(input.getPassword()));
-
         return userRepository.save(compte);
     }
 

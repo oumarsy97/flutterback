@@ -2,10 +2,7 @@ package sn.odc.flutter.Web.Controller.Impl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sn.odc.flutter.Datas.Entity.Compte;
 import sn.odc.flutter.Services.Impl.AuthenticationService;
 import sn.odc.flutter.Services.Impl.JwtService;
@@ -15,6 +12,7 @@ import sn.odc.flutter.Web.Dtos.response.LoginResponse;
 
 @RequestMapping("/auth")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 @Tag(name = "Auth ", description = "API pour gérer les users")
 
 public class AuthenticationController {
