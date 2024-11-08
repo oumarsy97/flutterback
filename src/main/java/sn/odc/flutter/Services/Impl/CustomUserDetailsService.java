@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Compte compte = compteRepository.findCompteByEmail(username)
+        Compte compte = compteRepository.findCompteByTelephone(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Compte not found"));
 
         Set<GrantedAuthority> authorities = new HashSet<>();

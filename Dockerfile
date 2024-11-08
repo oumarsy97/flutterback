@@ -1,14 +1,23 @@
 # Utiliser une image de base Java
-FROM openjdk:17-jdk
+FROM openjdk:17-jdk-slim
 
-# Définir le répertoire de travail
+# Répertoire de travail dans le conteneur
 WORKDIR /app
 
-# Copier les fichiers JAR dans le conteneur
-COPY ./target/flutter-0.0.1-SNAPSHOT.jar app.jar
+# Copie tous les fichiers dans le répertoire de travail du conteneur
+COPY . .
 
-# Exposer le port 8080 pour votre application
+# Rendre le fichier mvnw exécutable
+RUN chmod +x ./mvnw
+
+# Compiler l'application sans exécuter les tests
+RUN ./mvnw clean package -DskipTests
+
+# Exposer le port de votre application Spring Boot (remplacez si nécessaire)
 EXPOSE 3000
+
+# Commande pour démarrer l'application
+CMD ["java", "-jar", "target/flutter-0.0.1-SNAPSHOT.jar"]
 
 # Définir la commande d'exécution
 CMD ["java", "-jar", "app.jar"]

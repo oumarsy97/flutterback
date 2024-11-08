@@ -28,7 +28,7 @@ public class AuthenticationService {
 
     public Compte signup(CompteDTO input) {
         // Vérifier si l'email existe déjà
-        if (userRepository.findCompteByEmail(input.getEmail()).isPresent()) {
+        if (userRepository.findCompteByTelephone(input.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
 
@@ -42,7 +42,7 @@ public class AuthenticationService {
     public Compte authenticate(LoginUserDto input) {
         try {
             // Vérifier si l'email existe
-            Compte compte = userRepository.findCompteByEmail(input.getEmail())
+            Compte compte = userRepository.findCompteByTelephone(input.getTelephone())
                     .orElseThrow(() -> new BadCredentialsException("User not found"));
 
             // Vérifier si le mot de passe correspond
@@ -53,7 +53,7 @@ public class AuthenticationService {
             // Authentifier
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            input.getEmail(),
+                            input.getTelephone(),
                             input.getPassword()
                     )
             );
