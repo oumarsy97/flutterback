@@ -1,5 +1,8 @@
 package sn.odc.flutter.Datas.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +12,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -20,43 +22,39 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Compte extends BaseEntity implements UserDetails {
-    public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return type != null ?
-                List.of(new SimpleGrantedAuthority(type.name())) :
-                List.of();
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private TypeCompte type = TypeCompte.CLIENT;
 
-    @Override
-    public String getUsername() {
-        return telephone;
-    }
+    @Column(unique = true, nullable = false, length = 20)
+    private String telephone;
 
+    @Column(length = 100)
+    private String email;
 
+    @Column(nullable = false, length = 255)
+    private String password;
 
+    private int montant = 0;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    @Column(columnDefinition = "bytea")
+    private byte[] qrcode;
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    private Boolean estVerifie = false;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Statut statut = Statut.INACTIF;
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+    private int limiteMensuelle = 1000000;
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    @Column(length = 20)
+    private String reference;
 
-
+    @JsonIgnoreProperties("compte")
+    @OneToOne(mappedBy = "compte")
+    private Client client;
 
     public enum Statut {
         ACTIF,
@@ -68,29 +66,40 @@ public class Compte extends BaseEntity implements UserDetails {
         CLIENT,
         ADMIN,
         AGENT,
-        Distributeur;
+        Distributeur
     }
 
-    @Enumerated(EnumType.STRING)
-    private TypeCompte type = TypeCompte.CLIENT;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return type != null ?
+                List.of(new SimpleGrantedAuthority(type.name())) :
+                List.of();
+    }
 
-    @Column(unique = true, nullable = false)
-    private String telephone;
+    @Override
+    public String getUsername() {
+        return telephone;
+    }
 
-    private String email;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-    @Column(nullable = false)
-    private String password;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-    private int montant = 0;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-    private String qrcode;
-
-    private Boolean estVerifie = false;
-
-    @Enumerated(EnumType.STRING)
-    private Statut statut = Statut.INACTIF;
-
-    private int limiteMensuelle = 1000000;
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+    // Dans Compte.java
 
 }

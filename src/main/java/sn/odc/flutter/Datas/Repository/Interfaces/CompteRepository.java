@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface CompteRepository extends BaseInterface<Compte,Long> {
    Optional<Compte> findCompteByTelephone(String telephone);
    Optional<Compte> findCompteByEmail(String email);
+   boolean existsByEmail(String email);
+   boolean existsByTelephone(String telephone);
 }

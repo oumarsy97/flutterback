@@ -51,7 +51,9 @@ public class SecurityConfiguration {
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/webjars/**"
+                                "/webjars/**",
+                                "/clients/**",
+                                "/comptes/monprofile"
                         ).permitAll()
                         .requestMatchers("/api/v1/apparants/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
