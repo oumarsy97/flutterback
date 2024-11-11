@@ -30,7 +30,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/comptes")
-public class CompteController extends BaseControllerImpl<Compte,Long> implements CompteControllerInterface {
+public class CompteController  implements CompteControllerInterface {
     @Value("${security.jwt.secret-key}")
     private String secretKey;
 
@@ -40,7 +40,7 @@ public class CompteController extends BaseControllerImpl<Compte,Long> implements
 
     @Autowired
     public CompteController(CompteService compteService) {
-        super(compteService);
+
         this.compteService = compteService;
     }
 
