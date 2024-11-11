@@ -49,6 +49,7 @@ public class CompteController extends BaseControllerImpl<Compte,Long> implements
     public ResponseEntity<GenericResponse<Compte>> getProfile() {
         // Récupérer le token du header Authorization
         String authHeader = request.getHeader("Authorization");
+        System.out.println("getProfile"+ authHeader);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity
