@@ -18,11 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sn.odc.flutter.Datas.Entity.Client;
 import sn.odc.flutter.Datas.Entity.Compte;
 import sn.odc.flutter.Services.Interfaces.BaseService;
 import sn.odc.flutter.Services.Interfaces.CompteService;
 import sn.odc.flutter.Web.Controller.Interfaces.CompteControllerInterface;
+import sn.odc.flutter.Web.Dtos.response.DataResponse;
 import sn.odc.flutter.Web.Dtos.response.GenericResponse;
+import sn.odc.flutter.Web.Dtos.response.LoginResponse;
 
 import java.security.Key;
 import java.util.Base64;
@@ -46,15 +49,13 @@ public class CompteController extends BaseControllerImpl<Compte,Long> implements
 
     @Override
     @GetMapping("/monprofile")
-    public ResponseEntity<GenericResponse<Compte>> getProfile() {
+    public ResponseEntity<DataResponse> getProfile() {
         // Récupérer le token du header Authorization
         String authHeader = request.getHeader("Authorization");
-        System.out.println("getProfile"+ authHeader);
+        System.out.println("getProfile" + authHeader);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(new GenericResponse<>(null, "Token non fourni"));
+            return ResponseEntity.ok(new DataResponse(null, "Token non fourni"));
         }
 
         // Extraire le token sans le prefix "Bearer "
@@ -65,8 +66,6 @@ public class CompteController extends BaseControllerImpl<Compte,Long> implements
             // 2. Extraire et décoder le token
             String token2 = authHeader.substring(7);
             String[] chunks = token.split("\\.");
-
-
 
             // 3. Decoder le payload (deuxième partie du token)
             Base64.Decoder decoder = Base64.getUrlDecoder();
@@ -80,20 +79,19 @@ public class CompteController extends BaseControllerImpl<Compte,Long> implements
             String username = claims.get("sub").asText();  // sub est le claim standard pour username
             System.out.println("username : " + username);
 
-
             Compte compte = compteService.findCompteByToken(username);
             if (compte == null) {
                 return ResponseEntity
-                       .status(HttpStatus.UNAUTHORIZED)
-                       .body(new GenericResponse<>(null, "Compte non trouvé"));
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .body(new DataResponse(null, "Compte non trouvé"));
             }
 
-            return ResponseEntity.ok(new GenericResponse<>(compte, "Profil récupéré avec succès"));
+            return ResponseEntity.ok(new DataResponse( "Profil recupere avec succes",compte));
 
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(new GenericResponse<>( "Token expiré"));
+                    .body(new DataResponse("Token expiré",null));
         }
     }
 
