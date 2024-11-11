@@ -1,4 +1,4 @@
-# Utiliser une image de base Java
+# Utilise l'image OpenJDK
 FROM openjdk:17-jdk-slim
 
 # Répertoire de travail dans le conteneur
@@ -18,6 +18,3 @@ EXPOSE 3000
 
 # Commande pour démarrer l'application
 CMD ["java", "-jar", "target/flutter-0.0.1-SNAPSHOT.jar"]
-
-# Définir la commande d'exécution
-CMD ["java", "-jar", "app.jar"]
