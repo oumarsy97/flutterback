@@ -36,7 +36,7 @@ public class Compte extends BaseEntity implements UserDetails {
     @Column(nullable = false, length = 255)
     private String password;
 
-    private int montant = 0;
+    private float montant =  0;
 
     @Column(columnDefinition = "bytea")
     private byte[] qrcode;
@@ -47,7 +47,7 @@ public class Compte extends BaseEntity implements UserDetails {
     @Column(length = 20)
     private Statut statut = Statut.INACTIF;
 
-    private int limiteMensuelle = 1000000;
+    private float limiteMensuelle = 1000000;
 
     @Column(length = 20)
     private String reference;

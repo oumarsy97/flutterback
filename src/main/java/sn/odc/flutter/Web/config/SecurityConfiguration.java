@@ -53,10 +53,11 @@ public class SecurityConfiguration {
                                 "/swagger-ui.html",
                                 "/webjars/**",
                                 "/clients/**",
-                                "/comptes/monprofile"
+                                "/comptes/monprofile",
+                                "/**"
                         ).permitAll()
-                        .requestMatchers("/api/v1/apparants/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                       // .requestMatchers("/api/v1/apparants/**").hasRole("ADMIN")
+                        //.anyRequest().authenticated()
                 );
 
         return http.build();
